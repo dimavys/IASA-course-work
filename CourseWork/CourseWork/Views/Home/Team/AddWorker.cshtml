@@ -1,0 +1,22 @@
+﻿@model CourseWork.Models.ModelWorker
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html>
+<head>
+    <h>Coding Space</h>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <h1>Adding a worker to selected team</h1>
+    <form asp-controller="Team" asp-action="AddWorker" method="post">
+        <div asp-validation-summary="All">
+            <p><input placeholder="Insert login" asp-for="LoginBuilder"></p>
+            <p></p><button class="send_btn">Add</button>
+        </div>
+    </form>
+</body>
+</html>
+
+

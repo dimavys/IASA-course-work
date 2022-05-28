@@ -15,30 +15,98 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork
 build_property._RazorSourceGeneratorDebug = 
 
-[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Models/Edited.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TW9kZWxzL0VkaXRlZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/LogIn/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Mb2dJbi9FcnJvci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/LogIn/LoggedIn.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Mb2dJbi9Mb2dnZWRJbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/LogIn/LogIn.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Mb2dJbi9Mb2dJbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/SignUp/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9TaWduVXAvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/SignUp/SignedUp.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9TaWduVXAvU2lnbmVkVXAuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-6kc8p57vum
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/SignUp/SignUp.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9TaWduVXAvU2lnblVwLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Team/AddedTeam.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9UZWFtL0FkZGVkVGVhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Team/AddedWorker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9UZWFtL0FkZGVkV29ya2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Team/AddWorker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9UZWFtL0FkZFdvcmtlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Team/CreateTeam.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9UZWFtL0NyZWF0ZVRlYW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Team/DeletedTeam.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9UZWFtL0RlbGV0ZWRUZWFtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Team/HomeScreen.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9UZWFtL0hvbWVTY3JlZW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Team/NoTeam.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9UZWFtL05vVGVhbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Team/SeeTeams.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9UZWFtL1NlZVRlYW1zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Team/SeeWorkers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9UZWFtL1NlZVdvcmtlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Worker/CreatedWorker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Xb3JrZXIvQ3JlYXRlZFdvcmtlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Worker/CreateWorker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Xb3JrZXIvQ3JlYXRlV29ya2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Worker/DeletedWorker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Xb3JrZXIvRGVsZXRlZFdvcmtlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Worker/EditedWorker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Xb3JrZXIvRWRpdGVkV29ya2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Worker/EditionWorker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Xb3JrZXIvRWRpdGlvbldvcmtlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Worker/NoWorker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Xb3JrZXIvTm9Xb3JrZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Home/Worker/SeeWorkers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Xb3JrZXIvU2VlV29ya2Vycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/Views/Shared/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,24 @@
+﻿@model CourseWork.Models.ModelTeam
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html>
+<head>
+    <h>Coding Space</h>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <h1>Creating a Team</h1>
+    <form asp-controller="Team" asp-action="CreateTeam" method="post">
+        <div asp-validation-summary="All">
+           <p><input placeholder="Insert name" asp-for="NameBuilder"></p> 
+                   <p><input placeholder="Insert team leader login" asp-for="TeamLeadLoginBuilder"></p> 
+                   <p><input placeholder="Insert customer login" asp-for="CustomerLoginBuilder"></p> 
+                   <p><input placeholder="Insert rating" asp-for="RatingBuilder"></p>
+            <p></p><button class="send_btn">Create</button>
+        </div>
+    </form>
+</body>
+</html>
+

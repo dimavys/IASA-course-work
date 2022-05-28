@@ -1,0 +1,48 @@
+﻿@model IEnumerable<CourseWork.Models.ModelTeam>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <h>Coding Space</h>
+    <h1>List of the teams below</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Team Leader</th>
+                <th>Customer</th>
+                <th>Rating</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CourseWork.Models.ModelTeam r in Model)
+            {
+                <tr>
+                    <td>@r.NameBuilder</td>
+                    <td>@r.TeamLeadLoginBuilder</td>
+                    <td>@r.CustomerLoginBuilder </td>
+                    <td>@r.RatingBuilder</td>
+                    <td>
+                        <a asp-controller="Team" asp-action="SeeWorkers" asp-route-id="@r.IdBuilder">Workers</a>
+                        <form id="@r.IdBuilder" asp-controller="Team" asp-action="Deletion" method="post">
+                            <input type="hidden" name="Id" value="@r.IdBuilder" />
+                            <button type="submit">
+                                Delete
+                            </button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p><a asp-controller="Team" asp-action="CreateTeam">Create new Team</a></p>
+    <p><a asp-controller="Authentication" asp-action="Navigator">Move back to your workspace</a></p>
+</body>
+</html>
+

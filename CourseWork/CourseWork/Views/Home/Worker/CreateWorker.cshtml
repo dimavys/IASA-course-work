@@ -1,0 +1,25 @@
+﻿@model CourseWork.Models.ModelWorker
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html>
+<head>
+    <h>Coding Space</h>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <h1>Creating a Worker</h1>
+    <form asp-controller="Worker" asp-action="CreateWorker" method="post">
+        <div asp-validation-summary="All">
+            <p><input placeholder="Insert name" asp-for="NameBuilder"></p>
+            <p><input placeholder="Insert surname" asp-for="SurnameBuilder"></p>
+            <p><input placeholder="Insert login" asp-for="LoginBuilder"></p>
+            <p><input placeholder="Insert password" asp-for="PasswordBuilder"></p>
+            <p><input placeholder="Insert role" asp-for="RoleBuilder"></p>
+            <p><input placeholder="Insert salary" asp-for="SalaryBuilder"></p>
+            <p></p><button class="send_btn">Create</button>
+        </div>
+    </form>
+</body>
+</html>

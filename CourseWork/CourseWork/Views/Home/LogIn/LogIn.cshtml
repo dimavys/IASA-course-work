@@ -1,0 +1,22 @@
+﻿@model CourseWork.Models.ModelUser
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html>
+<head>
+    <h>Coding Space</h>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <form asp-controller="Authentication" asp-action="LogIn" method="post">
+        <div asp-validation-summary="All">
+                <input placeholder="Login" asp-for="LoginBuilder">
+                <input placeholder="Password" type="password" asp-for="PasswordBuilder">
+                <button class="send_btn">Log In</button>
+        </div>
+    </form>
+</body>
+</html>
+
+

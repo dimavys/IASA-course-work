@@ -1,0 +1,14 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model CourseWork.Models.ModelWorker
+<!DOCTYPE html>
+<html>
+<head>
+    <h>Coding Space</h>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <h1>@Model.NameBuilder @Model.SurnameBuilder has been edited</h1>
+    <p><a asp-controller="Worker" asp-action="SeeWorkers">Move back to workers list</a></p>
+</body>
+</html>

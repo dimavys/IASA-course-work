@@ -1,0 +1,49 @@
+﻿@model IEnumerable<CourseWork.Models.ModelWorker>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <h>Coding Space</h>
+    <h1>List of the workers below</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Login</th>
+                <th>Position</th>
+                <th>Salary</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CourseWork.Models.ModelWorker r in Model)
+            {
+                <tr>
+                    <td>@r.NameBuilder</td>
+                    <td>@r.SurnameBuilder </td>
+                    <td>@r.LoginBuilder </td>
+                    <td>@r.RoleBuilder      </td>
+                    <td>@r.SalaryBuilder</td>
+                    <td>
+                        <form id="@r.IdBuilder" asp-controller="Worker" asp-action="Deletion" method="post">
+                            <input type="hidden" name="Id" value="@r.IdBuilder" />
+                            <button type="submit">
+                                Delete
+                            </button>
+                        </form>
+                        <a asp-controller="Worker" asp-action="Edition" asp-route-id="@r.IdBuilder">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p><a asp-controller="Worker" asp-action="CreateWorker">Create new Worker</a></p>
+    <a asp-controller="Authentication" asp-action="Navigator">Move back to your workspace</a>
+
+</body>
+</html>
