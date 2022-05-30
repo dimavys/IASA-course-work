@@ -1,0 +1,24 @@
+﻿@model CourseWork.Models.ModelProject
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html>
+<head>
+    <h>Coding Space</h>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <h1>Creating a Project</h1>
+    <form asp-controller="Project" asp-action="CreateProject" method="post">
+        <div asp-validation-summary="All">
+            <p><input placeholder="Insert name" asp-for="NameBuilder"></p>
+            <p><input placeholder="Insert team name" asp-for="TeamBuilder"></p>
+            <p><input placeholder="Insert description" asp-for="DescBuilder"></p>
+            <p><input placeholder="Insert regulations" asp-for="RegBuilder"></p>
+            <p><input placeholder="Insert status" asp-for="StatusBuilder"></p>
+            <p></p><button class="send_btn">Create</button>
+        </div>
+    </form>
+</body>
+</html>

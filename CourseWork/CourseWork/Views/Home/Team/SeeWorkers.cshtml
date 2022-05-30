@@ -30,10 +30,10 @@
                     <td>@r.RoleBuilder </td>
                     <td>@r.SalaryBuilder</td>
                     <td>
-                        <form id="@r.IdBuilder" asp-controller="Worker" asp-action="Deletion" method="post">
+                        <form id="@r.IdBuilder" asp-controller="Team" asp-action="RemoveWorker" method="post">
                             <input type="hidden" name="Id" value="@r.IdBuilder" />
                             <button type="submit">
-                                Delete
+                                Remove
                             </button>
                         </form>
                     </td>

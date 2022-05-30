@@ -64,14 +64,37 @@ namespace CourseWork.Controllers
                        on u.Id equals t.CustomerId
                        join u1 in appDbContext.Users
                        on t.TeamLeadId equals u1.Id
-                       select new ModelTeam { IdBuilder = t.Id, NameBuilder = t.Name, RatingBuilder = t.Rating,
-                           CustomerLoginBuilder = u.Login, TeamLeadLoginBuilder = u1.Login }).ToList() ;
+                       select new ModelTeam
+                       { IdBuilder = t.Id,
+                           NameBuilder = t.Name,
+                           RatingBuilder = t.Rating,
+                           CustomerLoginBuilder = u.Login,
+                           TeamLeadLoginBuilder = u1.Login }).ToList() ;
             return View("~/Views/Home/Team/SeeTeams.cshtml", tmp);
         }
 
+        [HttpGet]
+        [Route("Team/SeeTeamsAsWorker/{id}")]
+        public ViewResult SeeTeamsAsWorker(int id)
+        {
+            var tmp = (from u in appDbContext.Users
+                       join wks in appDbContext.Workings
+                       on u.Id equals wks.WorkerId
+                       join t in appDbContext.Teams
+                       on wks.TeamId equals t.Id
+                       where u.Id == id
+                       select new ModelTeam
+                       {
+                           IdBuilder = t.Id,
+                           NameBuilder = t.Name,
+                           RatingBuilder = t.Rating}).ToList();
+            return View("~/Views/Home/Team/SeeTeamsAsWorker.cshtml", tmp);
+        }
+        
+
         [HttpPost]
-        [Route("Team/Deletion")]
-        public ViewResult Deletion(int id)
+        [Route("Team/DeleteTeam")]
+        public ViewResult DeleteTeam(int id)
         {
             var tmp = appDbContext.Teams.Where(x => x.Id == id).FirstOrDefault();
             appDbContext.Teams.Remove(tmp);
@@ -114,7 +137,7 @@ namespace CourseWork.Controllers
         [Route("Team/AddWorker")]
         public ViewResult AddWorker(ModelWorker w)
         {
-            if (ModelState.IsValid)
+            if (w.LoginBuilder != null)
             {
                 var _w = appDbContext.Users.Where(x => x.Login == w.LoginBuilder).FirstOrDefault();
                 if (_w != null)
@@ -133,6 +156,16 @@ namespace CourseWork.Controllers
             }
             else
                return View("~/Views/Home/Team/AddWorker.cshtml");
+        }
+
+        [HttpPost]
+        [Route("Team/RemoveWorker")]
+        public ViewResult RemoveWorker(int id)
+        {
+            var tmp = appDbContext.Workings.Where(x => x.TeamId == TeamKey && x.WorkerId == id).FirstOrDefault();
+            appDbContext.Remove(tmp);
+            appDbContext.SaveChanges();
+            return View("~/Views/Home/Team/RemovedWorker.cshtml");
         }
     }
 }

@@ -29,7 +29,7 @@
                     <td>@r.RatingBuilder</td>
                     <td>
                         <a asp-controller="Team" asp-action="SeeWorkers" asp-route-id="@r.IdBuilder">Workers</a>
-                        <form id="@r.IdBuilder" asp-controller="Team" asp-action="Deletion" method="post">
+                        <form id="@r.IdBuilder" asp-controller="Team" asp-action="DeleteTeam" method="post">
                             <input type="hidden" name="Id" value="@r.IdBuilder" />
                             <button type="submit">
                                 Delete

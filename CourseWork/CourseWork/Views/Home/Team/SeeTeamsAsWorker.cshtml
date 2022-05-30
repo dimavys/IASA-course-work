@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CourseWork.Models.ModelTeam>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <h>Coding Space</h>
+    <h1>List of the teams below</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CourseWork.Models.ModelTeam r in Model)
+            {
+                <tr>
+                    <td>@r.NameBuilder</td>
+                    <td>@r.RatingBuilder</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p><a asp-controller="Authentication" asp-action="Navigator">Move back to your workspace</a></p>
+</body>
+</html>
+

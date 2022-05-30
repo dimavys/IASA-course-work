@@ -35,7 +35,7 @@ namespace CourseWork.Controllers
                 else
                 {
                     var tmp =new User();
-                    var q = appDbContext.Roles.Where(x => x.Name == "Customer").FirstOrDefault();
+                   // var q = appDbContext.Roles.Where(x => x.Name == "Customer").FirstOrDefault();
                     r.CopyData(tmp,tmp.RoleId);
                     appDbContext.Users.Add(tmp);
                     appDbContext.SaveChanges();
@@ -79,7 +79,13 @@ namespace CourseWork.Controllers
                        where u.Id == UserKey
                        select r).FirstOrDefault();
             if (tmp.Name == "Admin")
-                return View("~/Views/Home/Team/HomeScreen.cshtml");
+                return View("~/Views/Home/Navidation/AdminHomeScreen.cshtml");
+            else if (tmp.Name == "TeamLead")
+                return View("~/Views/Home/Navidation/TeamLeaderHomeScreen.cshtml", UserKey);
+            else if (tmp.Name == "Customer")
+                return View("~/Views/Home/Navidation/CustomerHomeScreen.cshtml",UserKey);
+            else if (tmp.Name == "Middle" || tmp.Name == "Junior" || tmp.Name == "Senior")
+                return View("~/Views/Home/Navidation/WorkerHomeScreen.cshtml", UserKey);
             else
                 return View("~/Views/Home/Login/Error.cshtml");
         }

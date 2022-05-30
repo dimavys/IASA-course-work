@@ -67,6 +67,34 @@ namespace CourseWork.Controllers
             return View("~/Views/Home/Worker/SeeWorkers.cshtml", tmp);
         }
 
+        [HttpGet]
+        [Route("Worker/SeeWorkersInProject/{id}")]
+        public ViewResult SeeWorkersInProject(int id)
+        {
+            var tmp = (from r in appDbContext.Roles
+                       join u in appDbContext.Users
+                       on r.Id equals u.RoleId
+                       join t in appDbContext.Teams
+                       on u.Id equals t.TeamLeadId
+                       join ws in appDbContext.Workings
+                       on t.Id equals ws.TeamId
+                       join w in appDbContext.Users
+                       on ws.WorkerId equals w.Id
+                       where u.Id == id
+                       select new ModelWorker
+                       {
+                           IdBuilder = w.Id,
+                           LoginBuilder = w.Login,
+                           PasswordBuilder = w.Password,
+                           NameBuilder = w.Name,
+                           SurnameBuilder = w.Surname,
+                           RoleBuilder = r.Name,
+                           SalaryBuilder = (double)u.Salary
+                       }
+                       ).ToList();
+            return View("~/Views/Home/Worker/SeeLeaderWorkers.cshtml", tmp);
+        }
+
         [HttpPost]
         [Route("Worker/Deletion")]
         public ViewResult Deletion(int id)

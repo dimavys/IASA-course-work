@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CourseWork.Models.ModelTask>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <h>Coding Space</h>
+    <h1>List of the tasks below</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>StartDate</th>
+                <th>FinishDate</th>
+                <th>Priority</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CourseWork.Models.ModelTask r in Model)
+            {
+                <tr>
+                    <td>@r.TitleBuilder</td>
+                    <td>@r.DescBuilder </td>
+                    <td>@r.StartBuilder</td>
+                    <td>@r.FinishBuilder</td>
+                    <td>@r.PriorityBuilder</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="Authentication" asp-action="Navigator">Move back to your workspace</a>
+</body>
+</html>

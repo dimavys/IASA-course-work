@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CourseWork.Models.ModelRepository>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <h>Coding Space</h>
+    <h1>List of the repositories below</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CourseWork.Models.ModelRepository r in Model)
+            {
+                <tr>
+                    <td>@r.NameBuilder</td>
+                    <td>
+                        <form id="@r.IdBuilder" asp-controller="Repository" asp-action="DeleteRepository" method="post">
+                            <input type="hidden" name="Id" value="@r.IdBuilder" />
+                            <button type="submit">
+                                Delete
+                            </button>
+                        </form>
+                        <a asp-controller="Repository" asp-action="EditRepository" asp-route-id="@r.IdBuilder">Edit</a>
+                        <a asp-controller="Task" asp-action="SeeTasksAsLeader" asp-route-id="@r.IdBuilder">Tasks</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p><a asp-controller="Repository" asp-action="CreateRepository">Create repository</a></p>
+    <a asp-controller="Authentication" asp-action="Navigator">Move back to your workspace</a>
+</body>
+</html>
+
+
+

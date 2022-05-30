@@ -1,0 +1,21 @@
+﻿@model CourseWork.Models.ModelRepository
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html>
+<head>
+    <h>Coding Space</h>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <h1>Creating a Repository</h1>
+    <form asp-controller="Repository" asp-action="CreateRepository" method="post">
+        <div asp-validation-summary="All">
+            <p><input placeholder="Insert name" asp-for="NameBuilder"></p>
+            <p></p><button class="send_btn">Create</button>
+        </div>
+    </form>
+</body>
+</html>
+

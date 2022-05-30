@@ -29,10 +29,6 @@ namespace CourseWork.Models
 
         public string RoleBuilder { get { return role; } set { role = value; } }
 
-        //protected int roleId;
-
-        //public int RoleIdBuilder { get { return roleId; } set { roleId = value; } }
-
         public virtual void CopyData(User u, int _roleId)
         {
             u.Login = login;
@@ -42,14 +38,5 @@ namespace CourseWork.Models
             u.RoleId = _roleId;
         }
 
-        //public virtual void CopyData(User u, string _role, double _salary)
-        //{
-        //    id = u.Id;
-        //    login = u.Login;
-        //    password = u.Password;
-        //    name = u.Name;
-        //    surname = u.Surname;
-        //    role = _role;
-        //}
     }
 }

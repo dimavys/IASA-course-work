@@ -1,26 +1,29 @@
 ﻿<Properties StartupConfiguration="{DB7D1674-F278-46BA-A646-76993522DA1A}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="CourseWork/Controllers/TeamController.cs">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.CourseWork PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CourseWork/Views/Home/TAsk/SeeTasksAsLeader.cshtml">
     <Files>
-      <File FileName="CourseWork/Controllers/TeamController.cs" Line="129" Column="73" />
+      <File FileName="CourseWork/Controllers/TaskController.cs" Line="95" Column="36" />
+      <File FileName="CourseWork/Views/Home/TAsk/SeeTasksAsLeader.cshtml" Line="29" Column="45" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="CourseWork" expanded="True">
             <Node name="CourseWork" expanded="True">
-              <Node name="Dependencies" expanded="True">
-                <Node name="PackageDependencies" expanded="True" />
-              </Node>
               <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True" />
               <Node name="Properties" expanded="True" />
               <Node name="Views" expanded="True">
                 <Node name="Home" expanded="True">
-                  <Node name="LogIn" expanded="True" />
-                  <Node name="SignUp" expanded="True" />
-                  <Node name="Team" expanded="True" />
-                  <Node name="Worker" expanded="True" />
+                  <Node name="Repository" expanded="True" />
+                  <Node name="TAsk" expanded="True">
+                    <Node name="SeeTasksAsLeader.cshtml" selected="True" />
+                  </Node>
                 </Node>
-                <Node name="Shared" expanded="True" />
               </Node>
             </Node>
           </Node>
@@ -31,11 +34,6 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.CourseWork PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

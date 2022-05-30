@@ -1,0 +1,17 @@
+﻿@model CourseWork.Models.ModelProject
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html>
+<head>
+    <h>Coding Space</h>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <h1>Successfully edited project @Model.NameBuilder </h1>
+    <p><a asp-controller="Project" asp-action="SeeProjectAsLeader">Back to project</a></p>
+</body>
+</html>
+
+

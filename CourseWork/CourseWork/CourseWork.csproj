@@ -12,11 +12,21 @@
     <None Remove="Pomelo.EntityFrameworkCore.MySql" />
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
     <None Remove="Views\Home\SignUp\" />
+    <None Remove="Views\Home\Project\" />
+    <None Remove="Views\Home\Navidation\" />
+    <None Remove="Views\Home\Customer\" />
+    <None Remove="Views\Home\Repository\" />
+    <None Remove="Views\Home\TAsk\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Shared\" />
     <Folder Include="Data\" />
     <Folder Include="Views\Home\SignUp\" />
+    <Folder Include="Views\Home\Project\" />
+    <Folder Include="Views\Home\Navidation\" />
+    <Folder Include="Views\Home\Customer\" />
+    <Folder Include="Views\Home\Repository\" />
+    <Folder Include="Views\Home\TAsk\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
