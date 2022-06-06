@@ -16,6 +16,8 @@ namespace CourseWork.Data
 		public int Priority { get; set; }
 
 		public int RepositoryId { get; set; }
+
+		public Repository Repo { get; set; }
 	}
 }
 

@@ -67,6 +67,8 @@ namespace CourseWork.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProjectId");
+
                     b.ToTable("Repositories");
                 });
 
@@ -116,6 +118,8 @@ namespace CourseWork.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RepositoryId");
 
                     b.ToTable("Tasks");
                 });
@@ -191,10 +195,9 @@ namespace CourseWork.Migrations
                     b.Property<int>("WorkerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.HasKey("TeamId", "WorkerId");
+
+                    b.HasIndex("WorkerId");
 
                     b.ToTable("Workings");
                 });
@@ -208,6 +211,28 @@ namespace CourseWork.Migrations
                         .IsRequired();
 
                     b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("CourseWork.Data.Repository", b =>
+                {
+                    b.HasOne("CourseWork.Data.Project", "Proj")
+                        .WithMany("Repositories")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Proj");
+                });
+
+            modelBuilder.Entity("CourseWork.Data.Task", b =>
+                {
+                    b.HasOne("CourseWork.Data.Repository", "Repo")
+                        .WithMany("Tasks")
+                        .HasForeignKey("RepositoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Repo");
                 });
 
             modelBuilder.Entity("CourseWork.Data.Team", b =>
@@ -227,6 +252,45 @@ namespace CourseWork.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("TeamLeader");
+                });
+
+            modelBuilder.Entity("CourseWork.Data.Working", b =>
+                {
+                    b.HasOne("CourseWork.Data.Team", "Team")
+                        .WithMany("Workings")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CourseWork.Data.User", "Worker")
+                        .WithMany("Workings")
+                        .HasForeignKey("WorkerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Team");
+
+                    b.Navigation("Worker");
+                });
+
+            modelBuilder.Entity("CourseWork.Data.Project", b =>
+                {
+                    b.Navigation("Repositories");
+                });
+
+            modelBuilder.Entity("CourseWork.Data.Repository", b =>
+                {
+                    b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("CourseWork.Data.Team", b =>
+                {
+                    b.Navigation("Workings");
+                });
+
+            modelBuilder.Entity("CourseWork.Data.User", b =>
+                {
+                    b.Navigation("Workings");
                 });
 #pragma warning restore 612, 618
         }

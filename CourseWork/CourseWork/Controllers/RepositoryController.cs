@@ -1,40 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using CourseWork.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using CourseWork.Models;
+using CourseWork.Interfaces;
 
 namespace CourseWork.Controllers
 {
     public class RepositoryController : Controller
     {
-        private AppDbContext appDbContext;
+        private readonly IRepositoryService _repositoryService;
 
-        public RepositoryController(AppDbContext appDbContext)
+        public RepositoryController(IRepositoryService repositoryService)
         {
-            this.appDbContext = appDbContext;
+            _repositoryService = repositoryService;
         }
 
-        private static int userKey;
+        private static int _userKey;
 
         [HttpGet]
         [Route("Repository/SeeRepositoriesAsLeader/{id}")]
         public ViewResult SeeRepositoriesAsLeader(int id)
         {
-            userKey = id;
-            var tmp = (from t in appDbContext.Teams
-                       join p in appDbContext.Projects
-                       on t.Id equals p.TeamId
-                       join r in appDbContext.Repositories
-                       on p.Id equals r.ProjectId
-                       where t.TeamLeadId == id
-                       select new ModelRepository
-                       {
-                           IdBuilder = r.Id,
-                           NameBuilder = r.Name
-                       }).ToList();
+            _userKey = id;
+            var tmp = _repositoryService.SeeRepositoriesAsLeader(id);
             return View("~/Views/Home/Repository/SeeRepositoriesAsLeader.cshtml",tmp);
         }
 
@@ -42,30 +28,26 @@ namespace CourseWork.Controllers
         [Route("Repository/SeeRepositoriesAsWorker/{id}")]
         public ViewResult SeeRepositoriesAsWorker(int id)
         {
-            var tmp = (from r in appDbContext.Repositories
-                       where r.Id == id
-                       select new ModelRepository
-                       {
-                           IdBuilder = r.Id,
-                           NameBuilder = r.Name
-                       }).ToList();
-            return View("~/Views/Home/Repository/SeeRepositoriesAsWorker.cshtml", tmp);
+            var tmp = _repositoryService.SeeRepositoriesAsWorker(id);
+            if (tmp != null)
+                return View("~/Views/Home/Repository/SeeRepositoriesAsWorker.cshtml", tmp);
+            return View("~/Views/Home/Repository/NoRepository.cshtml");
         }
 
         [HttpPost]
-        [Route("Repository/DeleteRepositoty")]
+        [Route("Repository/DeleteRepository")]
         public ViewResult DeleteRepository(int id)
         {
-            var tmp = appDbContext.Repositories.Where(x => x.Id == id).FirstOrDefault();
-            appDbContext.Repositories.Remove(tmp);
-            appDbContext.SaveChanges();
-            return View("~/Views/Home/Repository/DeletedRepository.cshtml",userKey);
+            var result = _repositoryService.DeleteRepository(id);
+            if (result)
+                return View("~/Views/Home/Repository/DeletedRepository.cshtml", _userKey);
+            return View("~/Views/Home/Error.cshtml");
         }
 
         [HttpGet]
         [Route("Repository/CreateRepository")]
         public ViewResult CreateRepository()
-        { 
+        {
             return View("~/Views/Home/Repository/CreateRepository.cshtml");
         }
 
@@ -75,38 +57,23 @@ namespace CourseWork.Controllers
         {
             if (ModelState.IsValid)
             {
-                var tp = appDbContext.Repositories.Where(x => x.Name == r.NameBuilder).FirstOrDefault();
-                if (tp != null)
-                    return View("~/Views/Home/Repository/NoRepository.cshtml");
+                var result = _repositoryService.CreateRepository(r, _userKey);
+                if (result)
+                    return View("~/Views/Home/Repository/CreatedRepository.cshtml", _userKey);
                 else
-                {
-                    var rep = new Repository();
-                    var pId = (from t in appDbContext.Teams
-                               join p in appDbContext.Projects
-                               on t.Id equals p.TeamId
-                               where t.TeamLeadId == userKey
-                               select p.Id).FirstOrDefault();
-                    r.CopyRepository(rep,pId);
-                    appDbContext.Repositories.Add(rep);
-                    appDbContext.SaveChanges();
-                    return View("~/Views/Home/Repository/CreatedRepository.cshtml",userKey);
-                }
+                    return View("~/Views/Home/Repository/NoRepository.cshtml", _userKey);
             }
-            else 
-                return View("~/Views/Home/Repository/CreateRepository.cshtml");
+            return View("~/Views/Home/Repository/CreateRepository.cshtml");
         }
 
         [HttpGet]
         [Route("Repository/EditRepository/{id}")]
         public ViewResult EditRepository(int id)
         {
-            var tmp = (from r in appDbContext.Repositories
-                       select new ModelRepository
-                       {
-                           NameBuilder = r.Name,
-                           IdBuilder = r.Id
-                       }).FirstOrDefault();
-            return View("~/Views/Home/Repository/EditRepository.cshtml",tmp);
+            var tmp = _repositoryService.GetRepository(id);
+            if (tmp != null)
+                return View("~/Views/Home/Repository/EditRepository.cshtml", tmp);
+            return View("~/Views/Home/Error.cshtml");
         }
 
         [HttpPost]
@@ -115,13 +82,13 @@ namespace CourseWork.Controllers
         {
             if (ModelState.IsValid)
             {
-                var tmp = appDbContext.Repositories.Where(x => x.Id == mr.IdBuilder).FirstOrDefault();
-                mr.CopyRepository(tmp, tmp.ProjectId);
-                appDbContext.SaveChanges();
-                return View("~/Views/Home/Repository/EditedRepository.cshtml", userKey);
+                var result = _repositoryService.EditRepository(mr);
+                if (result)
+                    return View("~/Views/Home/Repository/EditedRepository.cshtml", _userKey);
+                else
+                    return View("~/Views/Home/Repository/NoRepository.cshtml");
             }
-            else
-                return View("~/Views/Home/Repository/EditRepository.cshtml", mr);
+            return View("~/Views/Home/Repository/EditRepository.cshtml", mr);
         }
 
     }

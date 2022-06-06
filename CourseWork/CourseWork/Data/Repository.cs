@@ -9,6 +9,8 @@ namespace CourseWork.Data
 
 		public int ProjectId { get; set; }
 
+		public Project Proj { get; set; }
+
 		public IEnumerable<Task> Tasks;
 	}
 }

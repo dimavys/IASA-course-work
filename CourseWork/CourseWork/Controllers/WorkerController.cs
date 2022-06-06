@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using CourseWork.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using CourseWork.Models;
+using CourseWork.Interfaces;
 
 namespace CourseWork.Controllers
 {
     public class WorkerController : Controller
     {
-        private AppDbContext appDbContext;
+        private readonly IWorkerService _workerService;
 
-        public WorkerController(AppDbContext appDbContext)
+        private int _userKey;
+
+        public WorkerController(IWorkerService workerService)
         {
-            this.appDbContext = appDbContext;
+            _workerService = workerService;
         }
 
         [HttpGet]
@@ -30,40 +28,21 @@ namespace CourseWork.Controllers
         {
             if (w.LoginBuilder != null)
             {
-                var tmp = appDbContext.Users.Where(x => x.Login == w.LoginBuilder).FirstOrDefault();
-                if (tmp != null)
-                    return View("~/Views/Home/Worker/NoWorker.cshtml");
+                var result = _workerService.CreateWorker(w);
+                if (result)
+                    return View("~/Views/Home/Worker/CreatedWorker.cshtml", _userKey);
                 else
-                {
-                    var tp = new User();
-                    var r = appDbContext.Roles.Where(x => x.Name == w.RoleBuilder).FirstOrDefault();
-                    w.CopyData(tp, r.Id);
-                    appDbContext.Users.Add(tp);
-                    appDbContext.SaveChanges();
-                    return View("~/Views/Home/Worker/CreatedWorker.cshtml", w);
-                }
+                    return View("~/Views/Home/Worker/NoWorker.cshtml");
             }
-            else
-                return View("~/Views/Home/Worker/CreateWorker.cshtml");
+            return View("~/Views/Home/Worker/CreateWorker.cshtml");
         }
 
         [HttpGet]
-        [Route("Worker/SeeWorkers")]
-        public ViewResult SeeWorkers()
+        [Route("Worker/SeeWorkers/{id}")]
+        public ViewResult SeeWorkers(int id)
         {
-            var tmp = (from u in appDbContext.Users
-                       join r in appDbContext.Roles
-                       on u.RoleId equals r.Id
-                       where r.Name != "Customer"
-                       select new ModelWorker
-                       {
-                           IdBuilder = u.Id,
-                           NameBuilder = u.Name,
-                           SurnameBuilder = u.Surname,
-                           LoginBuilder = u.Login,
-                           RoleBuilder = r.NormalizedName,
-                           SalaryBuilder = (double)u.Salary
-                       }).ToList();
+            _userKey = id;
+            var tmp = _workerService.SeeWorkers(id);
             return View("~/Views/Home/Worker/SeeWorkers.cshtml", tmp);
         }
 
@@ -71,70 +50,40 @@ namespace CourseWork.Controllers
         [Route("Worker/SeeWorkersInProject/{id}")]
         public ViewResult SeeWorkersInProject(int id)
         {
-            var tmp = (from r in appDbContext.Roles
-                       join u in appDbContext.Users
-                       on r.Id equals u.RoleId
-                       join t in appDbContext.Teams
-                       on u.Id equals t.TeamLeadId
-                       join ws in appDbContext.Workings
-                       on t.Id equals ws.TeamId
-                       join w in appDbContext.Users
-                       on ws.WorkerId equals w.Id
-                       where u.Id == id
-                       select new ModelWorker
-                       {
-                           IdBuilder = w.Id,
-                           LoginBuilder = w.Login,
-                           PasswordBuilder = w.Password,
-                           NameBuilder = w.Name,
-                           SurnameBuilder = w.Surname,
-                           RoleBuilder = r.Name,
-                           SalaryBuilder = (double)u.Salary
-                       }
-                       ).ToList();
-            return View("~/Views/Home/Worker/SeeLeaderWorkers.cshtml", tmp);
+            var tmp = _workerService.SeeWorkersInProject(id);
+            if (tmp != null)
+                return View("~/Views/Home/Worker/SeeLeaderWorkers.cshtml", tmp);
+            return View("~/Views/Home/Worker/NotYetWorker.cshtml");
         }
 
         [HttpPost]
         [Route("Worker/Deletion")]
         public ViewResult Deletion(int id)
         {
-            var tmp = appDbContext.Users.Where(x => x.Id == id).FirstOrDefault();
-            appDbContext.Users.Remove(tmp);
-            appDbContext.SaveChanges();
-            return View("~/Views/Home/Worker/DeletedWorker.cshtml");
+            var result = _workerService.DeleteWorker(id);
+            if (result)
+                return View("~/Views/Home/Worker/DeletedWorker.cshtml",_userKey);
+            return View("~/Views/Home/Error.cshtml");
         }
 
         [HttpGet]
         [Route("Worker/Edition/{id}")]
         public ViewResult Edition(int id)
         {
-            var tmp = (from u in appDbContext.Users
-                       join r in appDbContext.Roles
-                       on u.RoleId equals r.Id
-                       where u.Id == id
-                       select new ModelWorker
-                       {
-                           IdBuilder = u.Id,
-                           LoginBuilder = u.Login,
-                           PasswordBuilder = u.Password,
-                           NameBuilder = u.Name,
-                           SurnameBuilder = u.Surname,
-                           RoleBuilder = r.Name,
-                           SalaryBuilder = (double)u.Salary
-                       }).FirstOrDefault();
-            return View("~/Views/Home/Worker/EditionWorker.cshtml", tmp);
+            var tmp = _workerService.EditWorker(id);
+            if (tmp != null)
+                return View("~/Views/Home/Worker/EditionWorker.cshtml", tmp);
+            return View("~/Views/Home/Worker/NoWorker.cshtml");
         }
 
         [HttpPost]
         [Route("Worker/Edited")]
         public ViewResult Edited(ModelWorker w)
         {
-            var tmp = appDbContext.Users.Where(x => x.Id == w.IdBuilder).FirstOrDefault();
-            var rl = appDbContext.Roles.Where(x => x.Name == w.RoleBuilder).FirstOrDefault();
-            w.CopyData(tmp, rl.Id);
-            appDbContext.SaveChanges();
-            return View("~/Views/Home/Worker/EditedWorker.cshtml",w);
+            var result = _workerService.EditWorker(w);
+            if (result)
+                return View("~/Views/Home/Worker/EditedWorker.cshtml", _userKey);
+            return View("~/Views/Home/Worker/NoWorker.cshtml");
         }
     }
 }

@@ -1,49 +1,94 @@
 ﻿@model IEnumerable<CourseWork.Models.ModelProject>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
-</head>
-<body>
-    <h>Coding Space</h>
-    <h1>List of the projects below</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Team</th>
-                <th>Descrition</th>
-                <th>Regulations</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (CourseWork.Models.ModelProject r in Model)
-            {
-                <tr>
-                    <td>@r.NameBuilder</td>
-                    <td>@r.TeamBuilder  </td>
-                    <td>@r.DescBuilder </td>
-                    <td>@r.RegBuilder </td>
-                    <td>@r.StatusBuilder</td>
-                    <td>
-                        <form id="@r.IdBuilder" asp-controller="Project" asp-action="DeleteProject" method="post">
-                            <input type="hidden" name="Id" value="@r.IdBuilder" />
-                            <button type="submit">
-                                Delete
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <p><a asp-controller="Project" asp-action="CreateProject">Create project</a></p>
-    <a asp-controller="Authentication" asp-action="Navigator">Move back to your workspace</a>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeSpace</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shorthandcss@1.1.1/dist/shorthand.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:200,300,400,500,600,700,800,900&display=swap" />
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+</head>
+
+<body class="bg-black muli">
+    <nav class="w-100pc flex flex-column md-flex-row md-px-10 py-5 bg-black">
+        <div class="flex justify-between">
+            <a asp-controller="Home" asp-action="Index" class="flex items-center p-2 mr-4 no-underline">
+                <img width="200" src="/images/logo.png" />
+            </a>
+            <a data-toggle="toggle-nav" data-target="#nav-items" href="#"
+               class="flex items-center ml-auto md-hidden indigo-lighter opacity-50 hover-opacity-100 ease-300 p-1 m-3">
+                <i data-feather="menu"></i>
+            </a>
+        </div>
+        <div id="nav-items" class="hidden flex sm-w-100pc flex-column md-flex md-flex-row md-justify-end items-center">
+            <a asp-controller="Home" asp-action="Index" class="fs-s1 mx-3 py-3 indigo no-underline hover-underline">Home</a>
+            <a class="button bg-white black fw-600 no-underline mx-5" asp-controller="Authentication" asp-action="SignUp">Register</a>
+        </div>
+    </nav>
 </body>
+
+<section id="pricing">
+    <div class="p-10 flex flex-wrap">
+        <div class="w-100pc md-w-50pc">
+            <div class="p-5">
+                <h4 class="white fw-800 fs-l3 mb-5">List of the projects</h4>
+                <div class="indigo-lightest fw-600 fs-m1 opacity-50">
+                </div>
+                <a asp-controller="Authentication" asp-action="Navigator" class="button bg-indigo white fw-600 no-underline mx-5">
+                    Workspace
+                </a>
+            </div>
+        </div>
+        <div class="w-100pc md-w-25pc" style=" width:50% !important">
+            <div class="m-3 p-5 br-8 bg-indigo-lightest-10 overflow-hidden">
+                <table>
+                    <thead style=" line-height:3">
+                        <tr>
+                            <th width="16%"class="indigo" style="padding-right: 20px">Name</th>
+                            <th width="16%" class="indigo" style="padding-right: 20px">Team</th>
+                            <th width="20%" class="indigo" style=" padding-right: 20px">Description</th>
+                            <th width="16%" class="indigo" style="padding-right: 20px">Regulations</th>
+                            <th width="16%" class="indigo" style="padding-right: 20px">Status</th>
+                            <th width="16%" class="indigo" style="padding-right: 20px">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody style=" line-height:3">
+                        @foreach (CourseWork.Models.ModelProject r in Model)
+                        {
+                            <tr>
+                                <td width="16%" class="white" style="padding-right: 20px">@r.NameBuilder</td>
+                                <td width="16%" class="white" style="padding-right: 20px">@r.TeamBuilder</td>
+                                <td width="20%" class="white " style="padding-right: 20px">@r.DescBuilder</td>
+                                <td width="16%" class="white" style="padding-right: 20px">@r.RegBuilder</td>
+                                <td width="16%" class="white" style="padding-right: 20px">@r.StatusBuilder </td>
+                                <td  width="16%" >
+                                    <form id="@r.IdBuilder" asp-controller="Project" asp-action="DeleteProject" method="post">
+                                        <input type="hidden" name="Id" value="@r.IdBuilder" />
+                                        <button type="submit" class="button bg-indigo white fw-600 no-underline mx-5" style="position: relative; margin-left: 2px !important; margin-right: 0 !important; float: left; top: 0; height: 25px; padding: 3px ">
+                                            Delete
+                                        </button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="p-3">
+                    <a asp-controller="Project" asp-action="CreateProject" class="button full bg-black white  hover-opacity-100 hover-scale-up-1 ease-300 no-underline">
+                        Create project
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 </html>
+
 

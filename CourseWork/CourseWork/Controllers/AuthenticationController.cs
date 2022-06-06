@@ -1,19 +1,18 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using CourseWork.Models;
-using CourseWork.Data;
+using CourseWork.Interfaces;
 
 namespace CourseWork.Controllers
 {
     public class AuthenticationController : Controller
     {
-        public static int UserKey;
+        private static int _userKey;
 
-        private AppDbContext appDbContext;
+        private readonly IAuthService _authService;
 
-        public AuthenticationController(AppDbContext appDbContext)
+        public AuthenticationController(IAuthService authService)
         {
-            this.appDbContext = appDbContext;
+            _authService = authService;
         }
 
         [HttpGet]
@@ -29,19 +28,14 @@ namespace CourseWork.Controllers
         {
             if (ModelState.IsValid && r.RoleBuilder == r.PasswordBuilder)
             {
-                var tm = appDbContext.Users.Where(x => x.Login == r.LoginBuilder).FirstOrDefault();
-                if (tm != null)
-                    return View("Views/Home/SignUp/Error.cshtml");
-                else
+                var result = _authService.SignUp(r);
+                if (result)
                 {
-                    var tmp =new User();
-                   // var q = appDbContext.Roles.Where(x => x.Name == "Customer").FirstOrDefault();
-                    r.CopyData(tmp,tmp.RoleId);
-                    appDbContext.Users.Add(tmp);
-                    appDbContext.SaveChanges();
-                    UserKey = tmp.Id;
-                    return View("Views/Home/SignUp/SignedUp.cshtml",r);
+                    _userKey = _authService.GetId(r);
+                    return View("~/Views/Home/SignUp/SignedUp.cshtml", _authService.GetUser(_userKey));
                 }
+                else
+                    return View("~/Views/Home/SignUp/Error.cshtml");
             }
             else
                 return View("~/Views/Home/SignUp/SignUp.cshtml");
@@ -58,12 +52,11 @@ namespace CourseWork.Controllers
         [Route("Authentication/LogIn")]
         public ViewResult LogIn(ModelUser r)
         {
-           var tmp = appDbContext.Users.Where(x => x.Login == r.LoginBuilder).FirstOrDefault();
-           if (tmp != null && tmp.Password == r.PasswordBuilder) 
+           var result = _authService.LogIn(r);
+           if (result)
            {
-                r.NameBuilder = tmp.Name;
-                UserKey = tmp.Id;
-                return View("~/Views/Home/Login/LoggedIn.cshtml", r);
+                _userKey = _authService.GetId(r);
+                return View("~/Views/Home/Login/LoggedIn.cshtml", _authService.GetUser(_userKey));
            }
             else
                 return View("~/Views/Home/Login/Error.cshtml");
@@ -73,19 +66,15 @@ namespace CourseWork.Controllers
         [Route("Authentication/Navigator")]
         public ViewResult Navigator()
         {
-            var tmp = (from r in appDbContext.Roles
-                       join u in appDbContext.Users
-                       on r.Id equals u.RoleId
-                       where u.Id == UserKey
-                       select r).FirstOrDefault();
-            if (tmp.Name == "Admin")
-                return View("~/Views/Home/Navidation/AdminHomeScreen.cshtml");
-            else if (tmp.Name == "TeamLead")
-                return View("~/Views/Home/Navidation/TeamLeaderHomeScreen.cshtml", UserKey);
-            else if (tmp.Name == "Customer")
-                return View("~/Views/Home/Navidation/CustomerHomeScreen.cshtml",UserKey);
-            else if (tmp.Name == "Middle" || tmp.Name == "Junior" || tmp.Name == "Senior")
-                return View("~/Views/Home/Navidation/WorkerHomeScreen.cshtml", UserKey);
+            var tmp = _authService.GetRoleName(_userKey);
+            if (tmp == "Admin")
+                return View("~/Views/Home/Navidation/AdminHomeScreen.cshtml",_userKey);
+            else if (tmp == "TeamLead")
+                return View("~/Views/Home/Navidation/TeamLeaderHomeScreen.cshtml", _userKey);
+            else if (tmp == "Customer")
+                return View("~/Views/Home/Navidation/CustomerHomeScreen.cshtml",_userKey);
+            else if (tmp == "Middle" || tmp == "Junior" || tmp == "Senior")
+                return View("~/Views/Home/Navidation/WorkerHomeScreen.cshtml", _userKey);
             else
                 return View("~/Views/Home/Login/Error.cshtml");
         }

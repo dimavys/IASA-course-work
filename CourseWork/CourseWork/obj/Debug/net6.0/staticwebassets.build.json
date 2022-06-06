@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "7Yf46XpeMEEfkOR0mFed6Xhzyiohcqv4elgOOw03WX0=",
+  "Hash": "E8MUft/yBzijk13uSDOR/CSMPDKPyfnSVFagk34/8IM=",
   "Source": "CourseWork",
   "BasePath": "_content/CourseWork",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/wwwroot/images/logo.PNG",
+      "SourceId": "CourseWork",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/wwwroot/",
+      "BasePath": "_content/CourseWork",
+      "RelativePath": "images/logo.PNG",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/logo.PNG"
     },
     {
       "Identity": "/Users/mac/Desktop/projects/IASA-course-work/CourseWork/CourseWork/wwwroot/js/site.js",

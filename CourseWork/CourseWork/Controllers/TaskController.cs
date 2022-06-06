@@ -1,43 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using CourseWork.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using CourseWork.Models;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using CourseWork.Interfaces;
 
 namespace CourseWork.Controllers
 {
     public class TaskController : Controller
     {
-        private AppDbContext appDbContext;
+        private readonly ITaskService _taskService;
 
-        private static int repositoryKey;
+        private static int _repositoryKey;
 
-        public TaskController(AppDbContext appDbContext)
+        public TaskController(ITaskService taskService)
         {
-            this.appDbContext = appDbContext;
+            _taskService = taskService;
         }
 
         [HttpGet]
         [Route("Task/SeeTasksAsLeader/{id}")]
         public ViewResult SeeTasksAsLeader(int id)
         {
-            repositoryKey = id;
-            var tmp = (from t in appDbContext.Tasks
-                       where t.RepositoryId == id
-                       orderby t.Priority
-                       select new ModelTask
-                       {
-                           IdBuilder = t.Id,
-                           TitleBuilder = t.Title,
-                           DescBuilder = t.Description,
-                           StartBuilder = t.StartDate,
-                           FinishBuilder = t.FinishDate,
-                           PriorityBuilder = t.Priority
-                       }).ToList();
+            _repositoryKey = id;
+            var tmp = _taskService.GetTasks(id);
             return View("~/Views/Home/Task/SeeTasksAsLeader.cshtml", tmp);
         }
 
@@ -45,19 +28,11 @@ namespace CourseWork.Controllers
         [Route("Task/SeeTasksAsWorker/{id}")]
         public ViewResult SeeTasksAsWorker(int id)
         {
-            repositoryKey = id;
-            var tmp = (from t in appDbContext.Tasks
-                       where t.RepositoryId == id
-                       orderby t.Priority
-                       select new ModelTask
-                       {
-                           TitleBuilder = t.Title,
-                           DescBuilder = t.Description,
-                           StartBuilder = t.StartDate,
-                           FinishBuilder = t.FinishDate,
-                           PriorityBuilder = t.Priority
-                       }).ToList();
-            return View("~/Views/Home/Task/SeeTasksAsWorker.cshtml", tmp);
+            _repositoryKey = id;
+            var tmp = _taskService.GetTasks(id);
+            if (tmp != null)
+                return View("~/Views/Home/Task/SeeTasksAsWorker.cshtml", tmp);
+            return View("~/Views/Home/Task/NotYetTask.cshtml", tmp);
         }
 
         [HttpGet]
@@ -73,38 +48,23 @@ namespace CourseWork.Controllers
         {
             if (ModelState.IsValid)
             {
-                var tmp = appDbContext.Tasks.Where(x => x.Title == mt.TitleBuilder && x.RepositoryId == repositoryKey).FirstOrDefault();
-                if (tmp != null)
-                    return View("~/Views/Home/Task/CreateTask.cshtml");
+                var result = _taskService.CreateTask(mt, _repositoryKey);
+                if (result)
+                    return View("~/Views/Home/Task/CreatedTask.cshtml", _repositoryKey);
                 else
-                {
-                    var task = new Data.Task();
-                    mt.CopyTask(task, repositoryKey);
-                    appDbContext.Tasks.Add(task);
-                    appDbContext.SaveChanges();
-                    return View("~/Views/Home/Task/CreatedTask.cshtml", repositoryKey);
-                }
+                    return View("~/Views/Home/Task/NoTask.cshtml");
             }
-            else
-                return View("~/Views/Home/Task/CreateTask.cshtml");
+            return View("~/Views/Home/Task/CreateTask.cshtml");
         }
 
         [HttpGet]
-        [Route("Task/EditTask/{id}")]
+        [Route("Task/EditTask/{id}")]   
         public ViewResult EditTask(int id)
         {
-            var tmp = (from t in appDbContext.Tasks
-                       where t.Id == id
-                       select new ModelTask
-                       {
-                           IdBuilder = t.Id,
-                           TitleBuilder = t.Title,
-                           DescBuilder = t.Description,
-                           StartBuilder = t.StartDate,
-                           FinishBuilder = t.FinishDate,
-                           PriorityBuilder = t.Priority
-                       }).FirstOrDefault();
-            return View("~/Views/Home/Task/EditTask.cshtml", tmp);
+            var tmp = _taskService.GetTask(id);
+            if (tmp != null)
+                return View("~/Views/Home/Task/EditTask.cshtml", tmp);
+            return View("~/Views/Home/Error.cshtml");
         }
 
         [HttpPost]
@@ -113,23 +73,23 @@ namespace CourseWork.Controllers
         {
             if (ModelState.IsValid)
             {
-                var tmp = appDbContext.Tasks.Where(x => x.Id == mt.IdBuilder).FirstOrDefault();
-                mt.CopyTask(tmp, tmp.RepositoryId);
-                appDbContext.SaveChanges();
-                return View("~/Views/Home/Task/EditedTask.cshtml", repositoryKey);
+                var result = _taskService.EditTask(mt);
+                if (result)
+                    return View("~/Views/Home/Task/EditedTask.cshtml", _repositoryKey);
+                else
+                    return View("~/Views/Home/Error");
             }
-            else
-                return View("~/Views/Home/Task/EditTask.cshtml", mt);
+            return View("~/Views/Home/Task/EditTask.cshtml", mt);
         }
 
         [HttpPost]
         [Route("Task/DeleteTask")]
         public ViewResult DeleteTask(int id)
         {
-            var tmp = appDbContext.Tasks.Where(x => x.Id == id).FirstOrDefault();
-            appDbContext.Tasks.Remove(tmp);
-            appDbContext.SaveChanges();
-            return View("~/Views/Home/Task/DeletedTask.cshtml", repositoryKey);
+            var result = _taskService.DeleteTask(id);
+            if (result)
+                return View("~/Views/Home/Task/DeletedTask.cshtml", _repositoryKey);
+            return View("~/Views/Home/Error.cshtml");
         }
     }
 }

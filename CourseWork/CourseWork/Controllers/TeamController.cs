@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using CourseWork.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using CourseWork.Models;
+using CourseWork.Interfaces;
 
 namespace CourseWork.Controllers
 {
     public class TeamController : Controller
     {
-        private AppDbContext appDbContext;
+        private readonly ITeamService _teamService;
 
-        public TeamController(AppDbContext appDbContext)
+        public TeamController(ITeamService teamService)
         {
-            this.appDbContext = appDbContext;
+            _teamService = teamService;
         }
 
         private static int TeamKey;
@@ -32,24 +28,11 @@ namespace CourseWork.Controllers
         {
             if (ModelState.IsValid)
             {
-                var client = appDbContext.Users.Where(x => x.Login == t.CustomerLoginBuilder).FirstOrDefault();
-                var leader = appDbContext.Users.Where(x => x.Login == t.TeamLeadLoginBuilder).FirstOrDefault();
-                if (client != null && leader != null)
-                {
-                    var tm = appDbContext.Teams.Where(x => x.Name == t.NameBuilder || x.CustomerId == client.Id || x.TeamLeadId == leader.Id).FirstOrDefault();
-                    if (tm != null)
-                        return View("~/Views/Home/Team/NoTeam.cshtml");
-                    else
-                    {
-                        var tmp = new Team();
-                        t.CopyTeam(tmp, client.Id, leader.Id);
-                        appDbContext.Teams.Add(tmp);
-                        appDbContext.SaveChanges();
-                        return View("~/Views/Home/Team/AddedTeam.cshtml", t);
-                    }
-                        
-                }
-                   return View("~/Views/Home/Team/NoTeam.cshtml"); 
+                var result = _teamService.CreateTeam(t);
+                if (result)
+                    return View("~/Views/Home/Team/CreatedTeam.cshtml", t);
+                else
+                    return View("~/Views/Home/Team/NoTeam.cshtml");
             }
             else
                 return View("~/Views/Home/Team/CreateTeam.cshtml");
@@ -59,17 +42,7 @@ namespace CourseWork.Controllers
         [Route("Team/SeeTeams")]
         public ViewResult SeeTeams()
         {
-            var tmp = (from u in appDbContext.Users
-                       join t in appDbContext.Teams
-                       on u.Id equals t.CustomerId
-                       join u1 in appDbContext.Users
-                       on t.TeamLeadId equals u1.Id
-                       select new ModelTeam
-                       { IdBuilder = t.Id,
-                           NameBuilder = t.Name,
-                           RatingBuilder = t.Rating,
-                           CustomerLoginBuilder = u.Login,
-                           TeamLeadLoginBuilder = u1.Login }).ToList() ;
+            var tmp = _teamService.SeeTeams();
             return View("~/Views/Home/Team/SeeTeams.cshtml", tmp);
         }
 
@@ -77,29 +50,23 @@ namespace CourseWork.Controllers
         [Route("Team/SeeTeamsAsWorker/{id}")]
         public ViewResult SeeTeamsAsWorker(int id)
         {
-            var tmp = (from u in appDbContext.Users
-                       join wks in appDbContext.Workings
-                       on u.Id equals wks.WorkerId
-                       join t in appDbContext.Teams
-                       on wks.TeamId equals t.Id
-                       where u.Id == id
-                       select new ModelTeam
-                       {
-                           IdBuilder = t.Id,
-                           NameBuilder = t.Name,
-                           RatingBuilder = t.Rating}).ToList();
-            return View("~/Views/Home/Team/SeeTeamsAsWorker.cshtml", tmp);
+            var tmp = _teamService.SeeTeamsAsWorker(id);
+            if (tmp != null)
+                return View("~/Views/Home/Team/SeeTeamsAsWorker.cshtml", tmp);
+            else
+                return View("~/Views/Home/Team/NotYetTeam.cshtml");
         }
-        
+
 
         [HttpPost]
         [Route("Team/DeleteTeam")]
         public ViewResult DeleteTeam(int id)
         {
-            var tmp = appDbContext.Teams.Where(x => x.Id == id).FirstOrDefault();
-            appDbContext.Teams.Remove(tmp);
-            appDbContext.SaveChanges();
-            return View("~/Views/Home/Team/DeletedTeam.cshtml");
+            var result = _teamService.DeleteTeam(id);
+            if (result)
+                return View("~/Views/Home/Team/DeletedTeam.cshtml");
+            else
+                return View("~/Views/Home/Error.cshtml");
         }
 
         [HttpGet]
@@ -107,23 +74,11 @@ namespace CourseWork.Controllers
         public ViewResult SeeWorkers(int id)
         {
             TeamKey = id;
-            var tmp = (from r in appDbContext.Roles
-                       join u in appDbContext.Users
-                       on r.Id equals u.RoleId
-                       join w in appDbContext.Workings
-                       on u.Id equals w.WorkerId
-                       where w.TeamId == id
-                       select new ModelWorker
-                       {
-                           IdBuilder = u.Id,
-                           LoginBuilder = u.Login,
-                           PasswordBuilder = u.Password,
-                           NameBuilder = u.Name,
-                           SurnameBuilder = u.Surname,
-                           RoleBuilder = r.Name,
-                           SalaryBuilder = (double)u.Salary
-                       }).ToList();
-            return View("~/Views/Home/Team/SeeWorkers.cshtml",tmp);
+            var tmp = _teamService.SeeWorkers(id);
+            if (tmp != null)
+                 return View("~/Views/Home/Team/SeeWorkers.cshtml",tmp);
+            else
+                return View("~/Views/Home/Team/NoWorker.cshtml");
         }
 
         [HttpGet]
@@ -139,33 +94,27 @@ namespace CourseWork.Controllers
         {
             if (w.LoginBuilder != null)
             {
-                var _w = appDbContext.Users.Where(x => x.Login == w.LoginBuilder).FirstOrDefault();
-                if (_w != null)
+                var result = _teamService.AddWorker(TeamKey, w);
+                if (result)
                 {
-                    var tmp = new Working();
-                    tmp.TeamId = TeamKey;
-                    tmp.WorkerId = _w.Id;
-                    appDbContext.Workings.Add(tmp);
-                    appDbContext.SaveChanges();
-                    var t = new ModelTeam();
-                    t.IdBuilder = tmp.TeamId;
-                    return View("~/Views/Home/Team/AddedWorker.cshtml",t);
+                    return View("~/Views/Home/Team/AddedWorker.cshtml");
                 }
                 else
                     return View("~/Views/Home/Team/NoWorker.cshtml");
             }
             else
-               return View("~/Views/Home/Team/AddWorker.cshtml");
+                return View("~/Views/Home/Team/AddWorker.cshtml");
         }
 
         [HttpPost]
         [Route("Team/RemoveWorker")]
         public ViewResult RemoveWorker(int id)
         {
-            var tmp = appDbContext.Workings.Where(x => x.TeamId == TeamKey && x.WorkerId == id).FirstOrDefault();
-            appDbContext.Remove(tmp);
-            appDbContext.SaveChanges();
-            return View("~/Views/Home/Team/RemovedWorker.cshtml");
+            var result = _teamService.RemoveWorker(TeamKey, id);
+            if (result)
+                return View("~/Views/Home/Team/RemovedWorker.cshtml");
+            else
+                return View("~/Views/Home/Error.cshtml");
         }
     }
 }

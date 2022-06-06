@@ -17,7 +17,7 @@ namespace CourseWork.Data
 
 		public double? Salary { get; set; }
 
-		public IEnumerable<Working> Workings;
+		public IEnumerable<Working> Workings { get; set; }
 
 	}
 }

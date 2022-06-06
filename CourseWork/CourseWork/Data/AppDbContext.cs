@@ -24,27 +24,51 @@ namespace CourseWork.Data
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {    
+        {
+            modelBuilder.Entity<Task>()
+                .HasOne(r => r.Repo)
+                .WithMany(t => t.Tasks)
+                .OnDelete(DeleteBehavior.Cascade);
+
+                modelBuilder.Entity<Repository>()
+                .HasOne(p => p.Proj)
+                .WithMany(r => r.Repositories)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Team>()
             .HasOne(t => t.Customer)
             .WithOne()
-            .HasForeignKey<Team>(x => x.CustomerId);
+            .HasForeignKey<Team>(x => x.CustomerId)
+            .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Team>()
             .HasOne(t => t.TeamLeader)
             .WithOne()
-            .HasForeignKey<Team>(x => x.TeamLeadId);
+            .HasForeignKey<Team>(x => x.TeamLeadId)
+            .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Project>()
             .HasOne(t => t.Team)
             .WithOne()
-            .HasForeignKey<Project>(x => x.TeamId);
+            .HasForeignKey<Project>(x => x.TeamId)
+            .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Working>()
-                .HasKey(x => new { x.TeamId, x.WorkerId });
-        }
+               .HasKey(t => new { t.TeamId, t.WorkerId });
+
+            modelBuilder.Entity<Working>()
+                .HasOne(pt => pt.Team)
+                .WithMany(p => p.Workings)
+                .HasForeignKey(pt => pt.TeamId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Working>()
+                .HasOne(pt => pt.Worker)
+                .WithMany(t => t.Workings)
+                .HasForeignKey(pt => pt.WorkerId)
+                .OnDelete(DeleteBehavior.Cascade);
            
-        
+        }
     }
 }
 
