@@ -57,7 +57,10 @@ namespace CourseWork.Repos
             var tmp = (from r in _appDbContext.Roles
                        join u in _appDbContext.Users
                        on r.Id equals u.RoleId
-                       where r.Name == "Customer"
+                       join t in _appDbContext.Teams
+                       on u.Id equals t.CustomerId into Team
+                       from t in Team.DefaultIfEmpty()
+                       where r.Name == "Customer" && t == null
                        select u).ToList();
             return tmp;
         }

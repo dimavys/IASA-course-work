@@ -8,7 +8,7 @@ namespace CourseWork.Controllers
     {
         private readonly IWorkerService _workerService;
 
-        private int _userKey;
+        private static int _userKey;
 
         public WorkerController(IWorkerService workerService)
         {
